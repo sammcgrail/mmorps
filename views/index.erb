@@ -17,28 +17,28 @@
     </tr>
     <tr>
       <td>Player</td>
-      <td>Player score</td>
+      <td><%= session[:player_score] %></td>
     </tr>
     <tr>
       <td>Computer</td>
-      <td>Computer score</td>
+      <td><%= session[:computer_score] %></td>
     </tr>
   </table>
 
-  <h2><%= game_statement %></h2>
+  <h2>Result: <%= session[:game_statement] %></h2>
 
   <h2>Choose!</h2>
 
   <form action="/" method="post">
-    <input type="submit" name="choice" value="rock"></input>
-    <input type="submit" name="choice" value="paper"></input>
-    <input type="submit" name="choice" value="scissors"></input>
+    <input type="submit" name="choice" value="Rock"></input>
+    <input type="submit" name="choice" value="Paper"></input>
+    <input type="submit" name="choice" value="Scissors"></input>
   </form>
 
   <h2><% session %></h2>
-  <h2>View count: <%= visit_count %></h2>
-  <h2>Player choice: <%= player_choice %></h2>
-  <h2>Computer choice (testing with sample from ["rock","paper","scissors"] array): <%= computer_choice %></h2>
+  <h3>View count: <%= visit_count %></h3>
+  <h3>Player choice: <%= session[:player_choice] %></h3>
+  <h3>Computer choice: <%= session[:computer_choice] %></h3>
 
   <script src="/js/vendor/jquery.js"></script>
   <script src="/js/foundation.min.js"></script>
