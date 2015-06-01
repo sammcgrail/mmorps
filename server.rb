@@ -6,15 +6,6 @@ use Rack::Session::Cookie, {
 }
 
 get '/' do
-  #COUNTER
-  if session[:visit_count].nil?
-    visit_count = 1
-  else
-    visit_count = session[:visit_count].to_i
-  end
-  session[:visit_count] = visit_count + 1
-  #COUNTER
-
 
   if session[:computer_score].nil?
     computer_score = 0
@@ -27,7 +18,7 @@ get '/' do
   else
     player_score = session[:player_score].to_i
   end
-
+  visit_count = session[:visit_count]
   computer_choice = session[:computer_choice]
   player_choice = session[:player_choice]
   game_statement = session[:game_statement]
@@ -61,6 +52,17 @@ post '/'  do
 
   session[:game_statement] = ""
 
+  if ( computer_score == 2 || player_score == 2 )
+    redirect '/reset'
+  end
+
+  if session[:visit_count].nil?
+    visit_count = 1
+  else
+    visit_count = session[:visit_count].to_i
+  end
+  session[:visit_count] = visit_count + 1
+
   if player_choice == 'Rock' && computer_choice == 'Scissors' || player_choice == 'Paper' && computer_choice == 'Rock' || player_choice == 'Scissors' && computer_choice == 'Paper'
       session[:game_statement] = player_wins
       player_score += 1
@@ -73,6 +75,13 @@ post '/'  do
 
   session[:player_score] = player_score
   session[:computer_score] = computer_score
+
+  redirect '/'
+end
+
+get '/reset' do
+  session[:computer_score] = 0
+  session[:player_score] = 0
 
   redirect '/'
 end
