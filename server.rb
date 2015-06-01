@@ -23,6 +23,9 @@ get '/' do
   player_choice = session[:player_choice]
   game_statement = session[:game_statement]
 
+  if ( computer_score == 2 || player_score == 2 )
+    redirect '/gameover'
+  end
 
   erb :index, locals: {
                         visit_count: visit_count,
@@ -52,9 +55,7 @@ post '/'  do
 
   session[:game_statement] = ""
 
-  if ( computer_score == 2 || player_score == 2 )
-    redirect '/reset'
-  end
+
 
   if session[:visit_count].nil?
     visit_count = 1
@@ -84,6 +85,32 @@ get '/reset' do
   session[:player_score] = 0
 
   redirect '/'
+end
+
+post '/gameover' do
+  session[:player_score]
+  session[:computer_score]
+  session[:win_statement] = ""
+
+
+  erb :gameover, locals: {
+                        player_score: session[:player_score],
+                        computer_score: session[:computer_score]
+                      }
+  redirect "/reset"
+end
+
+get '/gameover' do
+
+  if session[:player_score] == 2
+    session[:win_statement] = "Player wins the game!"
+  else session[:computer_score] == 2
+    session[:win_statement] = "Computer wins the game!"
+  end
+  erb :gameover, locals: {
+                        player_score: session[:player_score],
+                        computer_score: session[:computer_score]
+                      }
 end
 
 # session[:outcome] = rps_logic(session[:player_choice])
