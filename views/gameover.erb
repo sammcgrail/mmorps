@@ -25,17 +25,18 @@
     </tr>
   </table>
 
-  <h2>Result: <%= session[:game_statement] %></h2>
+
 
   <h2><%= session[:win_statement] %></h2>
 
   <form action="/gameover" method="post">
     <input type="submit" name="choice" value="Play again"></input>
   </form>
-
-  <h2><% session %></h2>
-  <h3>Player choice: <%= session[:player_choice] %></h3>
-  <h3>Computer choice: <%= session[:computer_choice] %></h3>
+  
+  <br>
+  <h3>Last round Result: <%= session[:game_statement] %></h3>
+  <h3>Player round choice: <%= session[:player_choice] %></h3>
+  <h3>Computer round choice: <%= session[:computer_choice] %></h3>
 
   <script src="/js/vendor/jquery.js"></script>
   <script src="/js/foundation.min.js"></script>
