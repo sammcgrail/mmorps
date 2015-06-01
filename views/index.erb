@@ -6,6 +6,35 @@
 
 <body>
   <h1>MMORPS</h1>
+
+  <table>
+    <tr>
+      <th>Player</th>
+      <th>Score</th>
+    </tr>
+    <tr>
+      <td>Human</td>
+      <td>Human score</td>
+    </tr>
+    <tr>
+      <td>Computer</td>
+      <td>Computer score</td>
+    </tr>
+  </table>
+
+
+  <h2>Choose!</h2>
+
+  <form  action="/" method="post">
+    <label for="rock"></label>
+    <input type="submit" name="rock" value="rock">
+    <label for="paper"></label>
+    <input type="submit" name="paper" value="paper">
+    <label for="scissors"></label>
+    <input type="submit" name="scissors" value="scissors">
+  </form>
+
+
   <h2><%= visit_count %></h2>
 </body>
 
