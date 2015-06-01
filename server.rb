@@ -5,7 +5,7 @@ use Rack::Session::Cookie, {
   secret: "keep_it_secret_keep_it_safe"
 }
 
-# def choice(input)
+# def choice(params)
 #   p_score = 0
 #   c_score = 0
 #
@@ -39,30 +39,54 @@ use Rack::Session::Cookie, {
 #     end
 #   end
 # end
-#
-# choice('Rock')
+
+
+
 
 get '/' do
-    if session[:visit_count].nil?
-      visit_count = 1
-    else
-      # Everything in the session is stored as key-value strings. We need to
-      # convert back to an integer before we can use this value in our app.
-      visit_count = session[:visit_count].to_i
-    end
-    session[:visit_count] = visit_count + 1
-    "You've visited this page #{visit_count} time(s).\n"
+  #COUNTER
+  if session[:visit_count].nil?
+    visit_count = 1
+  else
+    visit_count = session[:visit_count].to_i
+  end
+  session[:visit_count] = visit_count + 1
+  "You've visited this page #{visit_count} time(s).\n"
+  #COUNTER
 
-
-    session[:player_choice] = params[:choice]
-    player_choice = session[:player_choice]
-
-    session[:computer_choice] = rand(3)
-    computer_choice = session[:computer_choice]
-
-    erb :index, locals: {visit_count: visit_count, player_choice: player_choice, computer_choice: computer_choice}
+  session[:computer_choice] = ["rock","paper","scissors"].sample
+  computer_choice = session[:computer_choice]
+  player_choice = session[:player_choice]
+  game_statement = session[:game_statement]
+  erb :index, locals: {visit_count: visit_count, player_choice: player_choice, computer_choice: computer_choice, game_statement: game_statement}
 end
 
 post '/'  do
-    redirect '/'
+  session[:player_choice] = params[:choice]
+
+  computer_score = session[:computer_score]
+  player_score = session[:player_score]
+  computer_choice = session[:computer_choice]
+  player_choice = session[:player_choice]
+  player_wins = "#{player_choice} beats #{computer_choice}, Player wins the round."
+  comp_wins = "#{computer_choice} beats #{player_choice}, Computer wins the round."
+  tie = "Tie, choose again."
+
+  game_statement = ""
+
+  if player_choice == 'Rock' && computer_choice == 'Scissors' || player_choice == 'Paper' && computer_choice == 'Rock' || player_choice == 'Scissors' && computer_choice == 'Paper'
+      game_statement = player_wins
+      player_score += 1
+  elsif computer_choice == 'Rock' && player_choice == 'Scissors' || computer_choice == 'Paper' && player_choice == 'Rock' || computer_choice == 'Scissors' && player_choice == 'Paper'
+      game_statement = comp_wins
+      computer_score +=1
+  else
+      game_statement = tie
+  end
+
+  game_statement = session[:game_statement]
+
+  redirect '/'
 end
+
+# session[:outcome] = rps_logic(session[:player_choice])
